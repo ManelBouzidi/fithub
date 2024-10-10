@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const PORT = 8080;
+const PORT =process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
+const db=require('./orm/indexorm')
 app.use(cors());
 
 app.get("/", (req, res) => {
