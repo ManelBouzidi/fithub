@@ -1,4 +1,4 @@
-import { colors } from '../components/Theme.jsx'
+import { Colors } from '../components/Theme.jsx'
 import { styled } from '@mui/material/styles'
 import {Box,Typography } from '@mui/material'
 export const BannerContainer=styled(Box)(({theme})=>({
@@ -7,7 +7,7 @@ export const BannerContainer=styled(Box)(({theme})=>({
     width:'100%',
     height:'100%',
     padding:'0px 0px',
-    backgroundColor:colors.dove_gray,
+    backgroundColor:Colors.dove_gray,
     [theme.breakpoints.down('sm')]:{
         flexDirection:'column',
         alignItems:'center',

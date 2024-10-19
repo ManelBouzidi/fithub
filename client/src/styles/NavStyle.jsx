@@ -1,7 +1,7 @@
 import {Box} from "@mui/system";
 import {styled} from "@mui/material/styles";
 import {List, Typography} from "@mui/material";
-import {colors} from "../components/Theme.jsx";
+import {Colors} from "../components/Theme.jsx";
 import "@fontsource/roboto";
 
 
@@ -21,7 +21,7 @@ export const NavbarHeader=styled(Typography)(()=>({
     flexGrow:1,
     fontSize:'4em',
     fontFamily:"'Roboto', 'Arial', 'sans-serif'",
-    color:colors.secondary,
+    color:Colors.secondary,
 }))
 
 export const MyList =styled(List)(({type})=>({

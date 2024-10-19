@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import "./App.css";
-import {Button, Container} from "@mui/material";
+import {Button, Container, CssBaseline} from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Theme from "./components/Theme.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Banner from "./components/banner.jsx";
+import Promotions from "./components/Promotion.jsx";
 
 function App() {
   useEffect(()=>{
@@ -18,8 +19,9 @@ function App() {
   >
    <Navbar/>
    <Banner />
+   <Promotions />
 
-    
+    <CssBaseline />
   </Container>
   </ThemeProvider>
 }
