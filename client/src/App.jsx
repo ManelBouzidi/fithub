@@ -6,6 +6,7 @@ import Theme from "./components/Theme.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Banner from "./components/banner.jsx";
 import Promotions from "./components/Promotion.jsx";
+import Products from "./components/Product.jsx";
 
 function App() {
   useEffect(()=>{
@@ -20,6 +21,7 @@ function App() {
    <Navbar/>
    <Banner />
    <Promotions />
+   <Products />
 
     <CssBaseline />
   </Container>
