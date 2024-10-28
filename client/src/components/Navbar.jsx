@@ -1,36 +1,45 @@
-import { ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import { useTheme } from "@mui/material/styles"
-import theme from "./Theme";
-import {Search} from "@mui/icons-material"
-import {MyList, NavbarContainer,NavbarHeader} from "../styles/NavStyle"
+import { ListItemButton, ListItemIcon, ListItemText, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Search } from "@mui/icons-material";
+import { MyList, NavbarContainer, NavbarHeader } from "../styles/NavStyle";
 import Action from "./Action";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "../auth";
 
+export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
+  const theme = useTheme();
+  const navigate = useNavigate();
 
+  const handleSignOut = () => {
+    signOut();
+    setIsAuthenticated(false);
+    navigate("/signin");
+  };
 
-
-export default function Navbar(){
-
-  const Theme =useTheme();
-  //const matches=useMediaQuery(Theme.breakpoints.down('md'));
-    return (
-        
-<NavbarContainer>
-
-  <NavbarHeader>FitHub</NavbarHeader>
-  <MyList type="row">
-    <ListItemText primary="Home"/>
-    <ListItemText primary="Category"/>
-    <ListItemText primary="Products"/>
-    <ListItemText primary="Contact Us"/>
-    <ListItemButton>
-      <ListItemIcon>
-        <Search />
-      </ListItemIcon>
-    </ListItemButton>
-  </MyList>
-  <Action />
-</NavbarContainer>
-    )
-
-    
+  return (
+    <NavbarContainer>
+      <NavbarHeader>FitHub</NavbarHeader>
+      <MyList type="row">
+        <ListItemText primary="Home" onClick={() => navigate("/")} />
+        <ListItemText primary="Category" />
+        <ListItemText primary="Products" />
+        <ListItemText primary="Contact Us" />
+        <ListItemButton>
+          <ListItemIcon>
+            <Search />
+          </ListItemIcon>
+        </ListItemButton>
+      </MyList>
+      {isAuthenticated ? (
+        <Button color="inherit" onClick={handleSignOut}>
+          Sign Out
+        </Button>
+      ) : (
+        <Button color="inherit" onClick={() => navigate("/signin")}>
+          Sign In
+        </Button>
+      )}
+      <Action />
+    </NavbarContainer>
+  );
 }

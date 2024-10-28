@@ -2,10 +2,6 @@ const {DataTypes}=require('sequelize');
 
 module.exports=(connect,DataTypes)=>{
     const user =connect.define('user',{
-        username:{
-            type:DataTypes.STRING,
-            allowNull:false
-        },
         email:{
             type:DataTypes.STRING,
             allowNull:false

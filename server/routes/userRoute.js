@@ -1,10 +1,15 @@
-const router=require("express").Router();
-const {getAllUsers,getOneUser,addUser,deleteUser,updateUser}=require('../controllers/userController.js');
+const router = require("express").Router();
+const {getAllUsers, getOneUser, signup, login, deleteUser, updateUser} = require('../controllers/userController.js');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get("/getAll",getAllUsers);
-router.get("/getOne/:id",getOneUser);
-router.post("/add",addUser);
-router.put("/update/:id",updateUser);
-router.delete("/delete/:id",deleteUser);
+// Public routes
+router.post("/signup", signup);
+router.post("/login", login);
 
-module.exports=router;
+// Protected routes
+router.get("/getAll", authMiddleware, getAllUsers);
+router.get("/getOne/:id", authMiddleware, getOneUser);
+router.put("/update/:id", authMiddleware, updateUser);
+router.delete("/delete/:id", authMiddleware, deleteUser);
+
+module.exports = router;
