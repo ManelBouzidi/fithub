@@ -6,7 +6,7 @@ const categories=require("./routes/categoryRoutes.js")
 const cors = require("cors");
 const PORT =process.env.PORT || 3000;
 const app = express();
-
+5
 app.use(express.json());
 const db=require('./orm/indexorm')
 app.use(cors());
