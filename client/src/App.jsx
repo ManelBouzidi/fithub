@@ -6,8 +6,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import Theme from "./components/Theme.jsx";
 import SignIn from "./components/SignIn.jsx";
 import SignUp from "./components/SignUp.jsx";
-import Home from "./home/Home.jsx"; // Import Home component
+import Home from "./home/Home.jsx";
 import { isAuthenticated } from "./auth.js";
+import Cart from "../Shop/Cart.jsx";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -20,13 +21,14 @@ function App() {
   return (
     <Router>
       <ThemeProvider theme={Theme}>
+        <CssBaseline />
         <Container maxWidth="xl" sx={{ background: "#fff" }}>
           <Routes>
-            <Route path="/" element={<Home />} /> {/* Home page accessible to everyone */}
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={isAuth ? <Cart /> : <Navigate to="/signin" />} /> {/* Cart Route */}
             <Route path="/signin" element={!isAuth ? <SignIn setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/signup" element={!isAuth ? <SignUp setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
           </Routes>
-          <CssBaseline />
         </Container>
       </ThemeProvider>
     </Router>
