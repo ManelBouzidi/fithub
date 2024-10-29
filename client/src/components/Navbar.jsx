@@ -21,9 +21,10 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
       <NavbarHeader>FitHub</NavbarHeader>
       <MyList type="row">
         <ListItemText primary="Home" onClick={() => navigate("/")} />
-        <ListItemText primary="Category" onClick={() => navigate("/category")}/>
-        <ListItemText primary="Products"onClick={() => navigate("/products")}/>
-        <ListItemText primary="Contact Us" onClick={() => navigate("/contact")}/><ListItemText primary="Cart" onClick={() => navigate("/cart")} /> {/* New Cart Navigation */}
+        <ListItemText primary="Category" onClick={() => navigate("/category")} />
+        <ListItemText primary="Products" onClick={() => navigate("/products")} />
+        <ListItemText primary="Contact Us" onClick={() => navigate("/contact")} />
+        <ListItemText primary="Cart" onClick={() => navigate("/cart")} />
         <ListItemButton>
           <ListItemIcon>
             <Search />
@@ -35,9 +36,14 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
           Sign Out
         </Button>
       ) : (
-        <Button color="inherit" onClick={() => navigate("/signin")}>
-          Sign In
-        </Button>
+        <>
+          <Button color="inherit" onClick={() => navigate("/signin")} style={{ marginRight: '10px' }}>
+            Sign In
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/signup")}>
+            Sign Up
+          </Button>
+        </>
       )}
       <Action />
     </NavbarContainer>

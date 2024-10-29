@@ -4,6 +4,7 @@ import "./App.css";
 import { Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Theme from "./components/Theme.jsx";
+import Navbar from "./components/Navbar.jsx";
 import SignIn from "./components/SignIn.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Home from "./home/Home.jsx";
@@ -23,9 +24,10 @@ function App() {
       <ThemeProvider theme={Theme}>
         <CssBaseline />
         <Container maxWidth="xl" sx={{ background: "#fff" }}>
+          <Navbar isAuthenticated={isAuth} setIsAuthenticated={setIsAuth} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cart" element={isAuth ? <Cart /> : <Navigate to="/signin" />} /> {/* Cart Route */}
+            <Route path="/cart" element={isAuth ? <Cart /> : <Navigate to="/signin" />} />
             <Route path="/signin" element={!isAuth ? <SignIn setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/signup" element={!isAuth ? <SignUp setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
           </Routes>

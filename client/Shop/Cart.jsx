@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Navbar from "../src/components/Navbar";
 export default function Cart({ cartItems, onRemoveItem }) {
   const [total, setTotal] = useState(0);
 
@@ -10,7 +9,6 @@ export default function Cart({ cartItems, onRemoveItem }) {
 
   return (
     <div>
-    <Navbar/>
       <h1>Shopping Cart</h1>
       <ul>
         {cartItems.map(item => (
