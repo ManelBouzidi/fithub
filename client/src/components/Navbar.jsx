@@ -21,9 +21,9 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
       <NavbarHeader>FitHub</NavbarHeader>
       <MyList type="row">
         <ListItemText primary="Home" onClick={() => navigate("/")} />
-        <ListItemText primary="Category" />
-        <ListItemText primary="Products" />
-        <ListItemText primary="Contact Us" />
+        <ListItemText primary="Category" onClick={() => navigate("/category")}/>
+        <ListItemText primary="Products"onClick={() => navigate("/products")}/>
+        <ListItemText primary="Contact Us" onClick={() => navigate("/contact")}/><ListItemText primary="Cart" onClick={() => navigate("/cart")} /> {/* New Cart Navigation */}
         <ListItemButton>
           <ListItemIcon>
             <Search />

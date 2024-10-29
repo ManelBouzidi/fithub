@@ -16,7 +16,7 @@ db.product=require('./products')(connect,DataTypes);
 db.orders=require('./order')(connect,DataTypes);
 db.category=require('./category')(connect,DataTypes);
 //connect.sync({ force: true }); 
-connect.sync({ alter: true })
+//connect.sync({ alter: true })
 //connect.sync({ force: true })
 connect.authenticate()
   .then(() => console.log("Sequelize database is connected successfully***"))
