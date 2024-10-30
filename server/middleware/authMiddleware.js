@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-// JWT secret key (this should match the one in userController.js)
-const JWT_SECRET = 'your_jwt_secret';
+const JWT_SECRET = 'secret';
 
 const authMiddleware = (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
