@@ -11,12 +11,13 @@ import Home from "./home/Home.jsx";
 import { isAuthenticated } from "./auth.js";
 import Cart from "../Shop/Cart.jsx";
 import UpProfile from "./components/UpProfil.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    document.title = "Final Project--FitHub--";
+    console.log("🚀 ~ useEffect ~ isAuthenticated:", isAuthenticated())
     setIsAuth(isAuthenticated());
   }, []);
 
@@ -24,15 +25,16 @@ function App() {
     <Router>
       <ThemeProvider theme={Theme}>
         <CssBaseline />
-        <Container maxWidth="xl" sx={{ background: "#fff" }}>
+        <Container maxWidth="xl" sx={{ background: "#fff", display: "flex", flexDirection: "column", minHeight: "100vh" }}>
           <Navbar isAuthenticated={isAuth} setIsAuthenticated={setIsAuth} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={isAuth ? <Cart /> : <Navigate to="/signin" />} />
             <Route path="/signin" element={!isAuth ? <SignIn setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/signup" element={!isAuth ? <SignUp setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
-            <Route path="/profile" element={isAuth ? <UpProfil /> : <Navigate to="/signin" />} />
+            <Route path="/profile" element={<UpProfile />} />
           </Routes>
+          <Footer />
         </Container>
       </ThemeProvider>
     </Router>
