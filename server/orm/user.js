@@ -1,24 +1,35 @@
-const {DataTypes}=require('sequelize');
+const {DataTypes} = require('sequelize');
 
-module.exports=(connect,DataTypes)=>{
-    const user =connect.define('user',{
-        email:{
-            type:DataTypes.STRING,
-            allowNull:false
+module.exports = (connect, DataTypes) => {
+    const user = connect.define('user', {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
-        password:{
-            type:DataTypes.STRING,
-            allowNull:false
+        lastName: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
-        role:{
-            type:DataTypes.ENUM,
-            values:['user','admin'],//add roles
-            defaultvalue:'user,'//default
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
-        
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        role: {
+            type: DataTypes.ENUM,
+            values: ['user', 'admin'],
+            defaultValue: 'user'
+        },
+        image: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
     },
     {
-        timestamps:false,
+        timestamps: false,
     })
     return user
 }

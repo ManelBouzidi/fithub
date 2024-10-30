@@ -6,7 +6,10 @@ export const signIn = async (email, password) => {
   try {
     const response = await axios.post(`${API_URL}/login`, { email, password });
     if (response.data.token) {
-      localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem('token', response.data.token);
+      if (response.data.user) {
+        localStorage.setItem('userid', response.data.user);
+      }
       return { success: true };
     }
     return { success: false, error: 'Invalid credentials' };
@@ -19,30 +22,48 @@ export const signIn = async (email, password) => {
   }
 };
 
-export const signUp = async (email, password) => {
+export const signUp = async (name, lastName, email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/signup`, { email, password });
+    const response = await axios.post(`${API_URL}/signup`, { name, lastName, email, password });
     if (response.data.token) {
-      localStorage.setItem('user', JSON.stringify(response.data));
-      return true;
+      localStorage.setItem('token', response.data.token);
+      if (response.data.user && response.data.user.id) {
+        localStorage.setItem('userid', response.data.user.id);
+      }
+      return { success: true };
     }
-    return false;
+    return { success: false, error: 'Failed to sign up' };
   } catch (error) {
     console.error('Sign up error:', error);
-    return false;
+    return { 
+      success: false, 
+      error: error.response?.data?.message || 'An error occurred during sign up'
+    };
   }
 };
 
 export const signOut = () => {
-  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  localStorage.removeItem('userid');
 };
 
 export const getCurrentUser = () => {
-  const userStr = localStorage.getItem('user');
-  if (userStr) return JSON.parse(userStr);
-  return null;
+  return localStorage.getItem('token');
+};
+
+export const getUserId = () => {
+  return localStorage.getItem('userid');
 };
 
 export const isAuthenticated = () => {
   return getCurrentUser() !== null;
+};
+
+// Add a new function to get the authentication header
+export const getAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    return { Authorization: `Bearer ${token}` };
+  }
+  return {};
 };

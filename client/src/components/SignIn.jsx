@@ -11,12 +11,17 @@ const SignIn = ({ setIsAuthenticated }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setError(''); // Clear any previous errors
+        if (!email || !password) {
+            setError('Please enter both email and password.');
+            return;
+        }
         const result = await signIn(email, password);
         if (result.success) {
             setIsAuthenticated(true);
             navigate('/');
         } else {
-            setError(result.error);
+            setError(result.error || 'An error occurred during sign in. Please try again.');
         }
     };
 

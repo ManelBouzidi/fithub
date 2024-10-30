@@ -1,9 +1,16 @@
 const db = require('../orm/indexorm.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 
 // JWT secret key (in a real application, this should be in an environment variable)
-const JWT_SECRET = 'your_jwt_secret';
+const JWT_SECRET = 'secret';
+
+cloudinary.config({
+  cloud_name: 'dqjkaqycr',
+  api_key: '752356833528756',
+  api_secret: 'eNnONf3pCuzS2EFDlnHpTr7AO0s'
+});
 
 // Getting all users
 const getAllUsers = async (req, res) => {
@@ -17,7 +24,6 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-// Getting just one user by id
 const getOneUser = async (req, res) => {
     try {
         const id = req.params.id;
@@ -33,10 +39,9 @@ const getOneUser = async (req, res) => {
     }
 }
 
-// Signup new user
 const signup = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { name, lastName, email, password } = req.body;
         
         // Check if user already exists
         const existingUser = await db.user.findOne({ where: { email } });
@@ -50,18 +55,21 @@ const signup = async (req, res) => {
 
         // Create new user
         const newUser = await db.user.create({
+            name,
+            lastName,
             email,
             password: hashedPassword
         });
 
-        res.status(201).send({ user: newUser, message: 'User created successfully' });
+        const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(201).send({ user: newUser, token, message: 'User created successfully' });
     } catch (error) {
         console.error('Signup error:', error);
         res.status(500).send({ message: 'Error in signup', error: error.message });
     }
 };
 
-// Login user
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -76,17 +84,14 @@ const login = async (req, res) => {
             return res.status(401).send({ message: 'Invalid credentials' });
         }
 
-        // Create and assign a token
         const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(200).send({ message: 'Login successful', token });
+        res.status(200).send({ message: 'Login successful', token, user: user.id });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).send({ message: 'Error in login', error: error.message });
     }
 };
 
-// Delete user
 const deleteUser = async (req, res) => {
     try {
         const id = req.params.id;
@@ -97,27 +102,42 @@ const deleteUser = async (req, res) => {
     }
 };
 
-// Updating user
 const updateUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { name, lastName, email, password, image } = req.body;
         const id = req.params.id;
 
-        // If password is being updated, hash it
-        let updateData = { email };
-        if (password) {
+        let updateData = { name, lastName, email };
+        
+        // Only update password if a new one is provided
+        if (password && password.trim() !== '') {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
             updateData.password = hashedPassword;
         }
 
+        // cloudinary
+        if (image) {
+            try {
+                const result = await cloudinary.uploader.upload(image);
+                updateData.image = result.secure_url;
+            } catch (error) {
+                console.error('Error uploading image to Cloudinary:', error);
+                return res.status(500).send({ message: 'Error uploading image', error: error.message });
+            }
+        }
+
         await db.user.update(updateData, { where: {id} });
         const updatedUser = await db.user.findOne({where: {id}});
-        res.status(200).send({user: updatedUser, message: 'User updated'});
+        
+        // kan ma femech password
+        const { password: _, ...userWithoutPassword } = updatedUser.toJSON();
+        
+        res.status(200).send({user: userWithoutPassword, message: 'User updated'});
     } catch (error) {
         console.error('Update user error:', error);
         res.status(500).send({ message: 'Error updating user', error: error.message });
     }
-}
+};
 
 module.exports = { getAllUsers, getOneUser, signup, login, deleteUser, updateUser }

@@ -1,28 +1,37 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../auth';
 
 const SignUp = ({ setIsAuthenticated }) => {
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (password !== confirmPassword) {
-            // TODO: Show error message to user
-            console.error('Passwords do not match');
+        setError('');
+
+        if (!name || !lastName || !email || !password || !confirmPassword) {
+            setError('Please fill in all fields');
             return;
         }
-        const success = await signUp(email, password);
-        if (success) {
+
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        const result = await signUp(name, lastName, email, password);
+        if (result.success) {
             setIsAuthenticated(true);
             navigate('/');
         } else {
-            // TODO: Show error message to user
-            console.error('Sign up failed');
+            setError(result.error || 'An error occurred during sign up. Please try again.');
         }
     };
 
@@ -39,7 +48,35 @@ const SignUp = ({ setIsAuthenticated }) => {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
+                {error && (
+                    <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
+                        {error}
+                    </Alert>
+                )}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="First Name"
+                        name="name"
+                        autoComplete="given-name"
+                        autoFocus
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="lastName"
+                        label="Last Name"
+                        name="lastName"
+                        autoComplete="family-name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
                     <TextField
                         margin="normal"
                         required
@@ -48,7 +85,6 @@ const SignUp = ({ setIsAuthenticated }) => {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        autoFocus
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
