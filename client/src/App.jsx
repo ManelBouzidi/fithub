@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar.jsx";
 import SignIn from "./components/SignIn.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Home from "./home/Home.jsx";
-import { isAuthenticated } from "./auth.js";
+import { isAuthenticated,isAdmin } from "./auth.js";
 import Cart from "../Shop/Cart.jsx";
 import UpProfile from "./components/UpProfil.jsx";
 import Footer from "./components/Footer.jsx";

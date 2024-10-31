@@ -41,7 +41,7 @@ const getOneUser = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        const { name, lastName, email, password } = req.body;
+        const { name, lastName, email, password,role } = req.body;
         
         // Check if user already exists
         const existingUser = await db.user.findOne({ where: { email } });
@@ -58,7 +58,8 @@ const signup = async (req, res) => {
             name,
             lastName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role,
         });
 
         const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
