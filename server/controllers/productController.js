@@ -69,4 +69,18 @@ const updateProduct=async(req,res)=>{
     }
 }
 
+const getProductByName = async (req, res) => {
+    const productName = req.params.name; // Use 'name' or 'productName' based on your route
+    try {
+        const product = await db.product.findOne({ where: { name: productName } });
+        if (!product) {
+            return res.status(404).send({ message: 'Product not found' });
+        }
+        res.status(200).send(product);
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+};
+
 module.exports ={getAllProducts,getOneProduct,addProduct,deleteProduct,updateProduct}
