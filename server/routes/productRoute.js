@@ -1,5 +1,5 @@
 const router=require("express").Router();
-const {getAllProducts,getOneProduct,addProduct,deleteProduct,updateProduct}=require('../controllers/productController.js');
+const {getAllProducts,getOneProduct,addProduct,deleteProduct,updateProduct,getProductByName}=require('../controllers/productController.js');
 
 router.get("/getAll",getAllProducts);
 router.get("/getOne/:id",getOneProduct);

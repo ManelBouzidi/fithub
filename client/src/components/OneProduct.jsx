@@ -1,9 +1,10 @@
+// components/ProductDetail.jsx
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { Typography, Card, CardMedia, CardContent, Button } from "@mui/material";
 
-export default function OneProduct() {
+export default function OneProductl() {
     const { productName } = useParams(); // Get product name from the URL
     const [product, setProduct] = useState(null);
     const [error, setError] = useState(null);
