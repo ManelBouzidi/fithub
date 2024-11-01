@@ -12,6 +12,7 @@ import { isAuthenticated } from "./auth.js";
 import Cart from "../Shop/Cart.jsx";
 import UpProfile from "./components/UpProfil.jsx";
 import Footer from "./components/Footer.jsx";
+import Contact from "./components/Contact/Contact.jsx";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -33,6 +34,7 @@ function App() {
             <Route path="/signin" element={!isAuth ? <SignIn setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/signup" element={!isAuth ? <SignUp setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/profile" element={<UpProfile />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />
         </Container>
