@@ -8,10 +8,12 @@ import Navbar from "./components/Navbar.jsx";
 import SignIn from "./components/SignIn.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Home from "./home/Home.jsx";
-import { isAuthenticated } from "./auth.js";
+import { isAuthenticated,isAdmin } from "./auth.js";
 import Cart from "../Shop/Cart.jsx";
 import UpProfile from "./components/UpProfil.jsx";
 import Footer from "./components/Footer.jsx";
+import AdminDashbord from "./components/admin-dashbord/AdminDashbord.jsx";
+import OneProduct from "./components/OneProduct.jsx";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -33,6 +35,8 @@ function App() {
             <Route path="/signin" element={!isAuth ? <SignIn setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/signup" element={!isAuth ? <SignUp setIsAuthenticated={setIsAuth} /> : <Navigate to="/" />} />
             <Route path="/profile" element={<UpProfile />} />
+            <Route path="admin" element={isAuth&&isAdmin() ?<AdminDashbord/> :<Navigate to="/signin"/>}/>
+            <Route path="/product/:productName" element={<OneProduct />} />
           </Routes>
           <Footer />
         </Container>

@@ -2,6 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import { Grid, Card, CardContent, CardMedia, Typography, CardActions, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Products() {
     const theme = useTheme();
@@ -34,6 +35,7 @@ export default function Products() {
             <Grid container spacing={3}>
                 {products.map(product => (
                     <Grid item xs={12} sm={6} md={4} key={product.id}>
+                    <Link to={`/product/${encodeURIComponent(product.name)}`} style={{ textDecoration: 'none' }}/>
                         <Card>
                             <CardMedia
                                 component="img"
