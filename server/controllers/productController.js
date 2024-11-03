@@ -11,7 +11,12 @@ cloudinary.config({
 // Getting all Products
 const getAllProducts = async(req,res) => {
     try {
-        const result = await db.product.findAll({})
+        const result = await db.product.findAll({
+            include: [{
+                model: db.category,
+                as: 'category'
+            }]
+        });
         res.status(200).send(result);
     } 
     catch (error) {
@@ -24,7 +29,13 @@ const getAllProducts = async(req,res) => {
 const getOneProduct = async(req,res) => {
     try {
         const id = req.params.id;
-        const result = await db.product.findOne({where:{id}})
+        const result = await db.product.findOne({
+            where: {id},
+            include: [{
+                model: db.category,
+                as: 'category'
+            }]
+        });
         if(!result){
             res.status(404).send({"Message":`Product with id ${id} not found!!`})
         } else {
@@ -39,8 +50,8 @@ const getOneProduct = async(req,res) => {
 // Add new product
 const addProduct = async(req,res) => {
     try {
-        const { name, description, price, images } = req.body;
-        let productData = { name, description, price };
+        const { name, description, price, images, categoryId } = req.body;
+        let productData = { name, description, price, categoryId };
 
         if (images) {
             try {
@@ -51,8 +62,15 @@ const addProduct = async(req,res) => {
                 return res.status(500).send({ message: 'Error uploading image', error: error.message });
             }
         }
-        const result = await db.product.create(productData)
-        res.status(201).send({Product: result, message: 'Product added successfully'})
+        const result = await db.product.create(productData);
+        const productWithCategory = await db.product.findOne({
+            where: { id: result.id },
+            include: [{
+                model: db.category,
+                as: 'category'
+            }]
+        });
+        res.status(201).send({Product: productWithCategory, message: 'Product added successfully'})
     } catch (error) {
         console.error('Error adding product:', error);
         res.status(500).send({ message: 'Error adding product', error: error.message })
@@ -74,9 +92,9 @@ const deleteProduct = async(req,res) => {
 // Updating Product
 const updateProduct = async(req,res) => {
     try {
-        const { name, description, price, images } = req.body;
+        const { name, description, price, images, categoryId } = req.body;
         const id = req.params.id;
-        let updateData = { name, description, price };
+        let updateData = { name, description, price, categoryId };
 
         if (images) {
             try {
@@ -89,27 +107,19 @@ const updateProduct = async(req,res) => {
         }
 
         await db.product.update(updateData, { where: {id} });
-        const updatedProduct = await db.product.findOne({where: {id}});
+        const updatedProduct = await db.product.findOne({
+            where: {id},
+            include: [{
+                model: db.category,
+                as: 'category'
+            }]
+        });
         res.status(200).send({Product: updatedProduct, message: 'Product updated successfully'})
     } catch (error) {
         console.error('Error updating product:', error);
         res.status(500).send({ message: 'Error updating product', error: error.message })
     }
 }
-
-const getProductByName = async (req, res) => {
-    const productName = req.params.name;
-    try {
-        const product = await db.product.findOne({ where: { name: productName } });
-        if (!product) {
-            return res.status(404).send({ message: 'Product not found' });
-        }
-        res.status(200).send(product);
-    } catch (error) {
-        console.error('Error fetching product:', error);
-        res.status(500).send({ message: 'Internal Server Error' });
-    }
-};
 
 // Search products
 const searchProducts = async (req, res) => {
@@ -121,7 +131,11 @@ const searchProducts = async (req, res) => {
                     { name: { [Op.like]: `%${term}%` } },
                     { description: { [Op.like]: `%${term}%` } }
                 ]
-            }
+            },
+            include: [{
+                model: db.category,
+                as: 'category'
+            }]
         });
         res.status(200).send(products);
     } catch (error) {
@@ -130,4 +144,4 @@ const searchProducts = async (req, res) => {
     }
 };
 
-module.exports = { getAllProducts, getOneProduct, addProduct, deleteProduct, updateProduct, getProductByName, searchProducts }
+module.exports = { getAllProducts, getOneProduct, addProduct, deleteProduct, updateProduct, searchProducts }

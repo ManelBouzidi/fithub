@@ -18,11 +18,16 @@ import {
     DialogTitle,
     TextField,
     Avatar,
-    Grid
+    Grid,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel
 } from '@mui/material';
 
 function ProductsList() {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [openDelete, setOpenDelete] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
@@ -31,19 +36,22 @@ function ProductsList() {
         name: '',
         description: '',
         price: '',
-        images: ''
+        images: '',
+        categoryId: ''
     });
     const [newProduct, setNewProduct] = useState({
         name: '',
         description: '',
         price: '',
-        images: ''
+        images: '',
+        categoryId: ''
     });
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
 
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
     }, []);
 
     const fetchProducts = () => {
@@ -53,6 +61,16 @@ function ProductsList() {
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
+            });
+    };
+
+    const fetchCategories = () => {
+        axios.get('http://localhost:3000/category/getAll')
+            .then((response) => {
+                setCategories(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching categories:', error);
             });
     };
 
@@ -67,7 +85,8 @@ function ProductsList() {
             name: product.name,
             description: product.description,
             price: product.price,
-            images: product.images
+            images: product.images,
+            categoryId: product.categoryId
         });
         setPreviewUrl(product.images);
         setOpenEdit(true);
@@ -126,7 +145,7 @@ function ProductsList() {
             .then(() => {
                 setOpenCreate(false);
                 fetchProducts();
-                setNewProduct({ name: '', description: '', price: '', images: '' });
+                setNewProduct({ name: '', description: '', price: '', images: '', categoryId: '' });
                 setSelectedFile(null);
                 setPreviewUrl(null);
             })
@@ -188,6 +207,7 @@ function ProductsList() {
                             <TableCell>Name</TableCell>
                             <TableCell>Description</TableCell>
                             <TableCell align="right">Price</TableCell>
+                            <TableCell>Category</TableCell>
                             <TableCell align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -203,6 +223,7 @@ function ProductsList() {
                                 <TableCell>{product.name}</TableCell>
                                 <TableCell>{product.description}</TableCell>
                                 <TableCell align="right">{product.price}</TableCell>
+                                <TableCell>{product.category ? product.category.name : 'N/A'}</TableCell>
                                 <TableCell align="center">
                                     <Button onClick={() => handleEditClick(product)}>Edit</Button>
                                     <Button onClick={() => handleDeleteClick(product)} color="error">Delete</Button>
@@ -281,6 +302,24 @@ function ProductsList() {
                             />
                         </Grid>
                         <Grid item xs={12}>
+                            <FormControl fullWidth variant="standard">
+                                <InputLabel id="category-select-label">Category</InputLabel>
+                                <Select
+                                    labelId="category-select-label"
+                                    id="category-select"
+                                    value={editedProduct.categoryId}
+                                    onChange={handleInputChange}
+                                    name="categoryId"
+                                >
+                                    {categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>
+                                            {category.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 margin="normal"
@@ -345,6 +384,24 @@ function ProductsList() {
                                 value={newProduct.price}
                                 onChange={(e) => handleInputChange(e, true)}
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth variant="standard">
+                                <InputLabel id="category-select-label">Category</InputLabel>
+                                <Select
+                                    labelId="category-select-label"
+                                    id="category-select"
+                                    value={newProduct.categoryId}
+                                    onChange={(e) => handleInputChange(e, true)}
+                                    name="categoryId"
+                                >
+                                    {categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>
+                                            {category.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
