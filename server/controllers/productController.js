@@ -1,5 +1,6 @@
 const db = require('../orm/indexorm.js');
 const cloudinary = require('cloudinary').v2;
+const { Op } = require('sequelize');
 
 cloudinary.config({
   cloud_name: 'dqjkaqycr',
@@ -110,4 +111,23 @@ const getProductByName = async (req, res) => {
     }
 };
 
-module.exports = { getAllProducts, getOneProduct, addProduct, deleteProduct, updateProduct, getProductByName }
+// Search products
+const searchProducts = async (req, res) => {
+    const { term } = req.query;
+    try {
+        const products = await db.product.findAll({
+            where: {
+                [Op.or]: [
+                    { name: { [Op.like]: `%${term}%` } },
+                    { description: { [Op.like]: `%${term}%` } }
+                ]
+            }
+        });
+        res.status(200).send(products);
+    } catch (error) {
+        console.error('Error searching products:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+};
+
+module.exports = { getAllProducts, getOneProduct, addProduct, deleteProduct, updateProduct, getProductByName, searchProducts }

@@ -53,7 +53,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
         <ListItemText primary="Home" onClick={() => navigate("/")} />
         <ListItemText primary="Products" onClick={() => navigate("/products")} />
         <ListItemText primary="Contact Us" onClick={() => navigate("/contact")} />
-        {isAdmin() && <ListItemText primary="Admin" onClick={() => navigate("/admin")} />}
+        {isAdmin() && <ListItemText primaryTypographyProps={{ sx: { color: 'blue', fontWeight: 'bold' } }} primary="Admin" onClick={() => navigate("/admin")} />}
 
       </MyList>
       {isAuthenticated ? (

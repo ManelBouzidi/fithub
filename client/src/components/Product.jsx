@@ -1,13 +1,14 @@
 import { useTheme } from "@mui/material/styles";
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { Grid, Card, CardContent, CardMedia, Typography, CardActions, Button } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography, CardActions, Button, Container, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function Products() {
     const theme = useTheme();
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const fetchProducts = async () => {
         try {
@@ -19,23 +20,49 @@ export default function Products() {
         }
     };
 
+    const searchProducts = async () => {
+        try {
+            const res = await axios.get(`http://localhost:3000/product/search?term=${searchTerm}`);
+            setProducts(res.data);
+        } catch (err) {
+            setError('Error: unable to search products');
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    useEffect(() => {
+        if (searchTerm) {
+            searchProducts();
+        } else {
+            fetchProducts();
+        }
+    }, [searchTerm]);
 
     if (error) {
         return <Typography color="error">{error}</Typography>;
     }
 
     return (
-        <div>
+        <Container>
             <Typography mt={8} mb={4} textAlign='center' variant="h4" component="h1" gutterBottom style={{ color: theme.palette.primary.main }}>
                 All our products
             </Typography>
+            <TextField
+                fullWidth
+                label="Search products"
+                variant="outlined"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ marginBottom: '20px' }}
+            />
             <Grid container spacing={3}>
                 {products.map(product => (
                     <Grid item xs={12} sm={6} md={4} key={product.id}>
-                    <Link to={`/product/${encodeURIComponent(product.name)}`} style={{ textDecoration: 'none' }}/>
+                        <Link to={`/product/${encodeURIComponent(product.name)}`} style={{ textDecoration: 'none' }} />
                         <Card>
                             <CardMedia
                                 component="img"
@@ -61,6 +88,6 @@ export default function Products() {
                     </Grid>
                 ))}
             </Grid>
-        </div>
+        </Container>
     );
 }
