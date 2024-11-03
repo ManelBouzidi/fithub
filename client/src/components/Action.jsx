@@ -11,12 +11,6 @@ function Action() {
           sx={{ display: 'flex', justifyContent: 'center' }}>
           <ShoppingCart /></ListItemIcon>
       </ListItemButton>
-      <Divider orientation='vertical' flexItem />
-      <ListItemButton>
-        <ListItemIcon>
-          <Search />
-        </ListItemIcon>
-      </ListItemButton>
     </MyList>
   )
 }

@@ -6,6 +6,7 @@ export const signIn = async (email, password) => {
   try {
     const response = await axios.post(`${API_URL}/login`, { email, password });
     if (response.data.token) {
+      console.log("🚀 ~ signIn ~ response.data:", response.data)
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('userid', response.data.user || '');
       localStorage.setItem('userRole', response.data.userRole || '');

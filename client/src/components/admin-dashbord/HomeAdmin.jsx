@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill } from 'react-icons/bs';
-import './App.css';
+import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
+import { getAuthHeader } from '../../auth';
 
 function HomeAdmin() {
   const [productsCount, setProductsCount] = useState(null);
@@ -8,54 +10,56 @@ function HomeAdmin() {
   const [customersCount, setCustomersCount] = useState(null);
 
   useEffect(() => {
-    // Fetch Products Count
-    fetch('http://localhost:3000/product/getAll')
-      .then((res) => res.json())
-      .then((data) => setProductsCount(data.count))  // Assuming data has a 'count' field
-      .catch((error) => console.error('Error fetching products count:', error));
+    axios.get('http://localhost:3000/product/getAll')
+      .then((response) => setProductsCount(response.data.length))
 
-    // Fetch Categories Count
-    fetch('http://localhost:3000/category/getAll')
-      .then((res) => res.json())
-      .then((data) => setCategoriesCount(data.count))
-      .catch((error) => console.error('Error fetching categories count:', error));
+    axios.get('http://localhost:3000/category/getAll')
+      .then((response) => setCategoriesCount(response.data.length))
 
-    // Fetch Customers Count
-    fetch('http://localhost:3000/user/getAll')
-      .then((res) => res.json())
-      .then((data) => setCustomersCount(data.count))
-      .catch((error) => console.error('Error fetching customers count:', error));
+    axios.get('http://localhost:3000/user/getAll', {
+      headers: getAuthHeader()
+    })
+      .then((response) => setCustomersCount(response.data.length))
   }, []);
 
+  const cardData = [
+    { title: 'PRODUCTS', count: productsCount, icon: <BsFillArchiveFill />, color: '#ff9800' },
+    { title: 'CATEGORIES', count: categoriesCount, icon: <BsFillGrid3X3GapFill />, color: '#4caf50' },
+    { title: 'CUSTOMERS', count: customersCount, icon: <BsPeopleFill />, color: '#2196f3' },
+  ];
+
   return (
-    <main className='main-container'>
-      <div className='main-title'>
-        <h3>DASHBOARD</h3>
-      </div>
-      <div className='main-cards'>
-        <div className='card'>
-          <div className='card-inner'>
-            <h3>PRODUCTS</h3>
-            <BsFillArchiveFill className='card_icon'/>
-          </div>
-          <h1>{productsCount !== null ? productsCount : 'Loading...'}</h1>
-        </div>
-        <div className='card'>
-          <div className='card-inner'>
-            <h3>CATEGORIES</h3>
-            <BsFillGrid3X3GapFill className='card_icon'/>
-          </div>
-          <h1>{categoriesCount !== null ? categoriesCount : 'Loading...'}</h1>
-        </div>
-        <div className='card'>
-          <div className='card-inner'>
-            <h3>CUSTOMERS</h3>
-            <BsPeopleFill className='card_icon'/>
-          </div>
-          <h1>{customersCount !== null ? customersCount : 'Loading...'}</h1>
-        </div>
-      </div>
-    </main>
+    <Box sx={{ flexGrow: 1, p: 3 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        DASHBOARD
+      </Typography>
+      <Grid container spacing={3} sx={{ flexWrap: 'nowrap' }}>
+        {cardData.map((card, index) => (
+          <Grid item xs={4} key={index}>
+            <Card sx={{
+              height: '100%',
+              backgroundColor: card.color,
+              color: 'white',
+              '&:hover': {
+                boxShadow: '0 8px 16px 0 rgba(0,0,0,0.2)',
+              },
+            }}>
+              <CardContent>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Typography variant="h6" component="div">
+                    {card.title}
+                  </Typography>
+                  {React.cloneElement(card.icon, { style: { fontSize: '2rem' } })}
+                </Box>
+                <Typography variant="h4" component="div" sx={{ mt: 2 }}>
+                  {card.count !== null ? card.count : '0'}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 }
 

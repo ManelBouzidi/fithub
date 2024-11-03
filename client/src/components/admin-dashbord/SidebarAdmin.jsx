@@ -1,36 +1,71 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+   Drawer,
+   List,
+   ListItem,
+   ListItemIcon,
+   ListItemText,
+   Typography,
+   Box
+} from '@mui/material';
+import {
+   Dashboard as DashboardIcon,
+   Inventory as InventoryIcon,
+   Category as CategoryIcon,
+   People as PeopleIcon,
+   ShoppingCart as ShoppingCartIcon,
+} from '@mui/icons-material';
 
-import { BsCart3,BsFillArchiveFill, BsFillGearFill, BsGrid1X2Fill, BsListCheck, BsPeopleFill } from 'react-icons/bs'
-import './App.css'
+const drawerWidth = 240;
 
-function SidebarAdmin({openSidebarToggle}) {
-  return (
-    <aside id='sidebar' className={openSidebarToggle ? "sidebar-responsive" :""}>
-        <div className='sidebar-title'>
-        <div className='sidebar-brand'>
-         <BsCart3 className='icon_header'/>SHOP
-        </div>
-        <span className='icon close_icon'>X</span>
-        </div>
-        <ul className='sidebar-list'>
-          <li className='sidebar-list-item'>
-             <a href=''><BsGrid1X2Fill className='icon'/>Dashbord</a>
-          </li>
-          <li className='sidebar-list-item'>
-             <a href=''><BsListCheck className='icon'/>Inventory</a>
-          </li>
-          <li className='sidebar-list-item'>
-             <a href=''><BsFillArchiveFill className='icon'/>products</a>
-          </li>
-          <li className='sidebar-list-item'>
-             <a href=''><BsPeopleFill className='icon'/>Categories</a>
-          </li>
-          <li className='sidebar-list-item'>
-             <a href=''><BsFillGearFill className='icon'/>Setting</a>
-          </li>
-        </ul>
-    </aside>
-  )
+function SidebarAdmin() {
+   const menuItems = [
+      { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin' },
+      { text: 'Products', icon: <ShoppingCartIcon />, path: '/admin/products' },
+      { text: 'Categories', icon: <CategoryIcon />, path: '/admin/categories' },
+      { text: 'Customers', icon: <PeopleIcon />, path: '/admin/customers' },
+   ];
+
+   return (
+      <Drawer
+         variant="permanent"
+         sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+               width: drawerWidth,
+               boxSizing: 'border-box',
+               bgcolor: 'primary.main',
+               color: 'primary.contrastText',
+            },
+         }}
+      >
+         <Box sx={{ p: 2 }}>
+            <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+               FitHub Admin
+            </Typography>
+         </Box>
+         <List>
+            {menuItems.map((item, index) => (
+               <ListItem
+                  button
+                  component={Link}
+                  to={item.path}
+                  key={index}
+                  sx={{
+                     '&:hover': {
+                        bgcolor: 'rgba(128, 128, 128, 0.2)',
+                     }
+                  }}
+               >
+                  <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
+                  <ListItemText sx={{ color: 'white' }} primary={item.text} />
+               </ListItem>
+            ))}
+         </List>
+      </Drawer>
+   );
 }
 
-export default SidebarAdmin
+export default SidebarAdmin;

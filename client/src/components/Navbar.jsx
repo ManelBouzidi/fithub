@@ -5,7 +5,7 @@ import { Search, AccountCircle } from "@mui/icons-material";
 import { MyList, NavbarContainer, NavbarHeader } from "../styles/NavStyle";
 import Action from "./Action";
 import { useNavigate } from "react-router-dom";
-import { signOut, getUserId, getAuthHeader } from "../auth";
+import { signOut, getUserId, getAuthHeader, isAdmin } from "../auth";
 import axios from 'axios';
 
 export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
@@ -19,15 +19,11 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
     const fetchUserData = async () => {
       if (isAuthenticated) {
         const userId = getUserId();
-        try {
-          const response = await axios.get(`http://localhost:3000/user/getOne/${userId}`, {
-            headers: getAuthHeader()
-          });
-          setUserName(`${response.data.name} ${response.data.lastName}`);
-          setUserImage(response.data.image); // Assuming the image URL is stored in 'profileImage' field
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
+        const response = await axios.get(`http://localhost:3000/user/getOne/${userId}`, {
+          headers: getAuthHeader()
+        });
+        setUserName(`${response.data.name} ${response.data.lastName}`);
+        setUserImage(response.data.image); // Assuming the image URL is stored in 'profileImage' field
       }
     };
     fetchUserData();
@@ -57,6 +53,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
         <ListItemText primary="Home" onClick={() => navigate("/")} />
         <ListItemText primary="Products" onClick={() => navigate("/products")} />
         <ListItemText primary="Contact Us" onClick={() => navigate("/contact")} />
+        {isAdmin() && <ListItemText primary="Admin" onClick={() => navigate("/admin")} />}
 
       </MyList>
       {isAuthenticated ? (
@@ -80,6 +77,8 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
             <MenuItem onClick={() => { handleClose(); navigate("/profile"); }}>Profile</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
+          <Action />
+
         </div>
       ) : (
         <>
@@ -91,7 +90,6 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
           </Button>
         </>
       )}
-      <Action />
     </NavbarContainer>
   );
 }
