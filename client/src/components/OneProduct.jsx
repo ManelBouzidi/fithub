@@ -8,7 +8,9 @@ import {
     Button,
     Grid,
     Box,
-    Divider
+    Divider,
+    Snackbar,
+    Alert
 } from "@mui/material";
 import { getAuthHeader } from "../auth";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -17,6 +19,8 @@ export default function OneProduct() {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [error, setError] = useState(null);
+    const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
 
     const fetchProductDetails = async () => {
         try {
@@ -31,6 +35,33 @@ export default function OneProduct() {
     useEffect(() => {
         fetchProductDetails();
     }, [productId]);
+
+    const addToCart = () => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cart.includes(productId)) {
+            setOpenErrorSnackbar(true);
+        } else {
+            cart.push(productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            setOpenSuccessSnackbar(true);
+            // Dispatch a custom event to notify Navbar of the cart update
+            window.dispatchEvent(new Event('cartUpdated'));
+        }
+    };
+
+    const handleCloseSuccessSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccessSnackbar(false);
+    };
+
+    const handleCloseErrorSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenErrorSnackbar(false);
+    };
 
     if (error) {
         return <Typography color="error">{error}</Typography>;
@@ -69,7 +100,7 @@ export default function OneProduct() {
                             variant="contained"
                             size="large"
                             startIcon={<ShoppingCartIcon />}
-                            onClick={() => { /* Add to cart logic here */ }}
+                            onClick={addToCart}
                         >
                             Add to Cart
                         </Button>
@@ -83,6 +114,32 @@ export default function OneProduct() {
                     </Typography>
                 </Grid>
             </Grid>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={openSuccessSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSuccessSnackbar}
+            >
+                <Alert onClose={handleCloseSuccessSnackbar} severity="success" sx={{ width: '100%' }}>
+                    Product added to cart successfully!
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={openErrorSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseErrorSnackbar}
+            >
+                <Alert onClose={handleCloseErrorSnackbar} severity="error" sx={{ width: '100%' }}>
+                    Product is already in the cart!
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }

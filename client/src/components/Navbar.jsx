@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ListItemText, Button, Menu, MenuItem, Avatar } from "@mui/material";
+import { ListItemText, Button, Menu, MenuItem, Avatar, Badge } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Search, AccountCircle } from "@mui/icons-material";
+import { Search, AccountCircle, ShoppingCart } from "@mui/icons-material";
 import { MyList, NavbarContainer, NavbarHeader } from "../styles/NavStyle";
 import Action from "./Action";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
   const [userName, setUserName] = useState('');
   const [userImage, setUserImage] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [cartItemsCount, setCartItemsCount] = useState(0);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -23,10 +24,25 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
           headers: getAuthHeader()
         });
         setUserName(`${response.data.name} ${response.data.lastName}`);
-        setUserImage(response.data.image); // Assuming the image URL is stored in 'profileImage' field
+        setUserImage(response.data.image);
       }
     };
     fetchUserData();
+
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      setCartItemsCount(cart.length);
+    };
+
+    updateCartCount();
+
+    window.addEventListener('cartUpdated', updateCartCount);
+    window.addEventListener('storage', updateCartCount);
+
+    return () => {
+      window.removeEventListener('cartUpdated', updateCartCount);
+      window.removeEventListener('storage', updateCartCount);
+    };
   }, [isAuthenticated]);
 
   const handleSignOut = () => {
@@ -54,10 +70,9 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
         <ListItemText primary="Products" onClick={() => navigate("/products")} />
         <ListItemText primary="Contact Us" onClick={() => navigate("/contact")} />
         {isAdmin() && <ListItemText primaryTypographyProps={{ sx: { color: 'blue', fontWeight: 'bold' } }} primary="Admin" onClick={() => navigate("/admin")} />}
-
       </MyList>
       {isAuthenticated ? (
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button color="inherit" onClick={handleMenu} startIcon={
             <Avatar
               src={userImage}
@@ -77,8 +92,9 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
             <MenuItem onClick={() => { handleClose(); navigate("/profile"); }}>Profile</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
-          <Action />
-
+          <Badge badgeContent={cartItemsCount} color="secondary" style={{ marginLeft: '30px', marginRight: '30px', cursor: 'pointer' }} onClick={() => navigate("/cart")}>
+            <ShoppingCart />
+          </Badge>
         </div>
       ) : (
         <>
