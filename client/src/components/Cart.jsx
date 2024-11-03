@@ -11,7 +11,11 @@ import {
     Paper,
     Button,
     Box,
-    CircularProgress
+    CircularProgress,
+    Card,
+    CardContent,
+    Grid,
+    Avatar
 } from '@mui/material';
 import { getAuthHeader } from "../auth";
 
@@ -48,7 +52,7 @@ export default function Cart() {
     if (error) return <Typography color="error">{error}</Typography>;
 
     return (
-        <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
+        <Box sx={{ maxWidth: 1000, margin: 'auto', mt: 4 }}>
             <Typography variant="h4" gutterBottom>
                 Your Cart
             </Typography>
@@ -56,36 +60,44 @@ export default function Cart() {
                 <Typography>Your cart is empty.</Typography>
             ) : (
                 <>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Product</TableCell>
-                                    <TableCell align="right">Price</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {cartItems.map((item) => (
-                                    <TableRow key={item._id}>
-                                        <TableCell component="th" scope="row">
-                                            {item.name}
-                                        </TableCell>
-                                        <TableCell align="right">{item.price} DT</TableCell>
-                                    </TableRow>
-                                ))}
-                                <TableRow>
-                                    <TableCell component="th" scope="row">
-                                        <strong>Total</strong>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <strong>{calculateTotal()} DT</strong>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <Grid container spacing={2}>
+                        {cartItems.map((item) => (
+                            <Grid item xs={12} key={item._id}>
+                                <Card>
+                                    <CardContent>
+                                        <Grid container alignItems="center" spacing={2}>
+                                            <Grid item>
+                                                <Avatar
+                                                    src={item.images}
+                                                    alt={item.name}
+                                                    sx={{ width: 80, height: 80 }}
+                                                    variant="rounded"
+                                                />
+                                            </Grid>
+                                            <Grid item xs>
+                                                <Typography variant="h6">{item.name}</Typography>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    {item.description}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="h6">{item.price} DT</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Card sx={{ mt: 4, bgcolor: 'primary.light' }}>
+                        <CardContent>
+                            <Typography variant="h5" align="right" color="primary.contrastText">
+                                Total: {calculateTotal()} DT
+                            </Typography>
+                        </CardContent>
+                    </Card>
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" color="primary" size="large">
                             Checkout
                         </Button>
                     </Box>
