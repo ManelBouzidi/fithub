@@ -2,12 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
     Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Paper,
     Button,
     Box,
@@ -15,7 +9,8 @@ import {
     Card,
     CardContent,
     Grid,
-    Avatar
+    Avatar,
+    Snackbar
 } from '@mui/material';
 import { getAuthHeader } from "../auth";
 
@@ -23,6 +18,7 @@ export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -48,6 +44,37 @@ export default function Cart() {
         return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
     };
 
+    const handleCheckout = async () => {
+        try {
+            const userId = JSON.parse(localStorage.getItem('userid'));
+            const price = parseFloat(calculateTotal());
+            const products = cartItems.map(item => item.id);
+
+            const response = await axios.post('http://localhost:3000/order/add', {
+                userId,
+                price,
+                products
+            }, { headers: getAuthHeader() });
+
+            if (response.status === 200) {
+                setSnackbarOpen(true);
+                // Clear the cart
+                localStorage.removeItem('cart');
+                setCartItems([]);
+            }
+        } catch (error) {
+            console.error('Error creating order:', error);
+            setError('Failed to create order. Please try again.');
+        }
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+
     if (loading) return <CircularProgress />;
     if (error) return <Typography color="error">{error}</Typography>;
 
@@ -62,7 +89,7 @@ export default function Cart() {
                 <>
                     <Grid container spacing={2}>
                         {cartItems.map((item) => (
-                            <Grid item xs={12} key={item._id}>
+                            <Grid item xs={12} key={item.id}>
                                 <Card>
                                     <CardContent>
                                         <Grid container alignItems="center" spacing={2}>
@@ -97,12 +124,18 @@ export default function Cart() {
                         </CardContent>
                     </Card>
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button variant="contained" color="primary" size="large">
+                        <Button variant="contained" color="primary" size="large" onClick={handleCheckout}>
                             Checkout
                         </Button>
                     </Box>
                 </>
             )}
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                message="Order created successfully!"
+            />
         </Box>
     );
 }

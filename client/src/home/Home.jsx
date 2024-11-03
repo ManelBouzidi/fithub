@@ -8,13 +8,13 @@ import Products from "../components/Product.jsx";
 
 function Home() {
 
-  return <ThemeProvider theme={Theme}>
+  return <>
     <Banner />
     <Promotions />
     <Products />
 
     <CssBaseline />
-  </ThemeProvider>
+  </>
 }
 
 export default Home;

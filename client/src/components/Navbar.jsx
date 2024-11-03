@@ -7,6 +7,7 @@ import Action from "./Action";
 import { useNavigate } from "react-router-dom";
 import { signOut, getUserId, getAuthHeader, isAdmin } from "../auth";
 import axios from 'axios';
+import fithubLogo from '/BannerImage/fithublogo.png';
 
 export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
   const theme = useTheme();
@@ -64,7 +65,9 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
 
   return (
     <NavbarContainer>
-      <NavbarHeader>FitHub</NavbarHeader>
+      <NavbarHeader onClick={() => navigate("/")}>
+        <img src={fithubLogo} alt="FitHub Logo" style={{ width: '100px', marginLeft: '50px' }} />
+      </NavbarHeader>
       <MyList type="row">
         <ListItemText primary="Home" onClick={() => navigate("/")} />
         <ListItemText primary="Products" onClick={() => navigate("/products")} />

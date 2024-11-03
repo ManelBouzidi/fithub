@@ -1,71 +1,69 @@
 import React from 'react';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import {
-   Drawer,
-   List,
-   ListItem,
-   ListItemIcon,
-   ListItemText,
-   Typography,
-   Box
-} from '@mui/material';
-import {
-   Dashboard as DashboardIcon,
-   Inventory as InventoryIcon,
-   Category as CategoryIcon,
-   People as PeopleIcon,
-   ShoppingCart as ShoppingCartIcon,
-} from '@mui/icons-material';
+import HomeIcon from '@mui/icons-material/Home';
+import CategoryIcon from '@mui/icons-material/Category';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PeopleIcon from '@mui/icons-material/People';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const drawerWidth = 240;
 
-function SidebarAdmin() {
-   const menuItems = [
-      { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin' },
-      { text: 'Products', icon: <ShoppingCartIcon />, path: '/admin/products' },
-      { text: 'Categories', icon: <CategoryIcon />, path: '/admin/categories' },
-      { text: 'Customers', icon: <PeopleIcon />, path: '/admin/customers' },
-   ];
-
+const SidebarAdmin = () => {
    return (
       <Drawer
-         variant="permanent"
          sx={{
             width: drawerWidth,
             flexShrink: 0,
             '& .MuiDrawer-paper': {
                width: drawerWidth,
                boxSizing: 'border-box',
-               bgcolor: 'primary.main',
-               color: 'primary.contrastText',
+               backgroundColor: 'black',
+               color: 'white',
             },
          }}
+         variant="permanent"
+         anchor="left"
       >
-         <Box sx={{ p: 2 }}>
-            <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-               FitHub Admin
+         <Toolbar>
+            <Typography variant="h6" noWrap component="div" sx={{ color: 'white' }}>
+               Admin Dashboard
             </Typography>
-         </Box>
+         </Toolbar>
          <List>
-            {menuItems.map((item, index) => (
-               <ListItem
-                  button
-                  component={Link}
-                  to={item.path}
-                  key={index}
-                  sx={{
-                     '&:hover': {
-                        bgcolor: 'rgba(128, 128, 128, 0.2)',
-                     }
-                  }}
-               >
-                  <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
-                  <ListItemText sx={{ color: 'white' }} primary={item.text} />
-               </ListItem>
-            ))}
+            <ListItem button component={Link} to="/admin" sx={{ '&:hover': { backgroundColor: '#333' } }}>
+               <ListItemIcon>
+                  <HomeIcon sx={{ color: 'white' }} />
+               </ListItemIcon>
+               <ListItemText sx={{ color: 'white' }} primary="Home" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/products" sx={{ '&:hover': { backgroundColor: '#333' } }}>
+               <ListItemIcon>
+                  <ShoppingCartIcon sx={{ color: 'white' }} />
+               </ListItemIcon>
+               <ListItemText sx={{ color: 'white' }} primary="Products" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/categories" sx={{ '&:hover': { backgroundColor: '#333' } }}>
+               <ListItemIcon>
+                  <CategoryIcon sx={{ color: 'white' }} />
+               </ListItemIcon>
+               <ListItemText sx={{ color: 'white' }} primary="Categories" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/customers" sx={{ '&:hover': { backgroundColor: '#333' } }}>
+               <ListItemIcon>
+                  <PeopleIcon sx={{ color: 'white' }} />
+               </ListItemIcon>
+               <ListItemText sx={{ color: 'white' }} primary="Customers" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/orders" sx={{ '&:hover': { backgroundColor: '#333' } }}>
+               <ListItemIcon>
+                  <ReceiptIcon sx={{ color: 'white' }} />
+               </ListItemIcon>
+               <ListItemText sx={{ color: 'white' }} primary="Orders" />
+            </ListItem>
          </List>
       </Drawer>
    );
-}
+};
 
 export default SidebarAdmin;
