@@ -71,6 +71,9 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
         <ListItemText primary="Contact Us" onClick={() => navigate("/contact")} />
         {isAdmin() && <ListItemText primaryTypographyProps={{ sx: { color: 'blue', fontWeight: 'bold' } }} primary="Admin" onClick={() => navigate("/admin")} />}
       </MyList>
+      <Badge badgeContent={cartItemsCount} color="secondary" style={{ marginLeft: '30px', marginRight: '30px', cursor: 'pointer' }} onClick={() => navigate("/cart")}>
+        <ShoppingCart />
+      </Badge>
       {isAuthenticated ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button color="inherit" onClick={handleMenu} startIcon={
@@ -92,9 +95,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
             <MenuItem onClick={() => { handleClose(); navigate("/profile"); }}>Profile</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
-          <Badge badgeContent={cartItemsCount} color="secondary" style={{ marginLeft: '30px', marginRight: '30px', cursor: 'pointer' }} onClick={() => navigate("/cart")}>
-            <ShoppingCart />
-          </Badge>
+
         </div>
       ) : (
         <>
