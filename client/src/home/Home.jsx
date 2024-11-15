@@ -8,19 +8,13 @@ import Products from "../components/Product.jsx";
 
 function Home() {
 
-  return <ThemeProvider theme={Theme}><Container
-    maxWidth="xl"
-    sx={
-      { background: "#fff" }
-    }
-  >
+  return <>
     <Banner />
     <Promotions />
     <Products />
 
     <CssBaseline />
-  </Container>
-  </ThemeProvider>
+  </>
 }
 
 export default Home;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
+import { TextField, Button, Typography, Container, Box, Alert,Radio,RadioGroup,FormControlLabel,FormControl,FormLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../auth';
 
@@ -8,6 +8,8 @@ const SignUp = ({ setIsAuthenticated }) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role,setRole]=useState('user');//default as user
+    const [secretWord,setsecretWord]=useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -25,11 +27,15 @@ const SignUp = ({ setIsAuthenticated }) => {
             setError('Passwords do not match');
             return;
         }
+        if (role==='admin'&&secretWord!=="let's get started"){
+            setError('Incorrect secret Word you are not an admin')
+        }
 
         const result = await signUp(name, lastName, email, password);
         if (result.success) {
             setIsAuthenticated(true);
-            navigate('/');
+            if(role==='admin'){alert("Welcome,Admin"); navigate('/admin')}else{navigate('/');}
+            
         } else {
             setError(result.error || 'An error occurred during sign up. Please try again.');
         }
@@ -112,6 +118,33 @@ const SignUp = ({ setIsAuthenticated }) => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
+                    <FormControl component="fieldset" sx={{ mt: 2 }}>
+                        <FormLabel component="legend">Role</FormLabel>
+                        <RadioGroup
+                            row
+                            aria-label="role"
+                            name="role"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                        >
+                            <FormControlLabel value="user" control={<Radio />} label="User" />
+                            <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+                        </RadioGroup>
+                    </FormControl>
+                    {/* Display Secret Word field only if role is admin */}
+                    {role === 'admin' && (
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="secretWord"
+                            label="Admin Secret Word"
+                            type="text"
+                            id="secretWord"
+                            value={secretWord}
+                            onChange={(e) => setsecretWord(e.target.value)}
+                        />
+                    )}
                     <Button
                         type="submit"
                         fullWidth

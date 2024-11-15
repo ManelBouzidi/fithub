@@ -41,7 +41,7 @@ const getOneUser = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        const { name, lastName, email, password } = req.body;
+        const { name, lastName, email, password,role } = req.body;
         
         // Check if user already exists
         const existingUser = await db.user.findOne({ where: { email } });
@@ -58,7 +58,8 @@ const signup = async (req, res) => {
             name,
             lastName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role,
         });
 
         const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
@@ -85,7 +86,7 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).send({ message: 'Login successful', token, user: user.id });
+        res.status(200).send({ message: 'Login successful', token, user: user.id, userRole: user.role });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).send({ message: 'Error in login', error: error.message });
