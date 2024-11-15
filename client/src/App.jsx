@@ -23,7 +23,7 @@ function App() {
       <Router>
         <Routes>
 
-          <Route path="/" element={<ThemeProvider theme={Theme}><FrontOfficeLayout isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} /></ThemeProvider>}>
+          <Route path="/" element={<ThemeProvider theme={Theme}><FrontOfficeLayout isAuthenticated={isAuth()} setIsAuthenticated={setIsAuthenticated} /></ThemeProvider>}>
             <Route index element={<Home />} />
             <Route path="products" element={<Product />} />
             <Route path="contact" element={<ContactUs />} />

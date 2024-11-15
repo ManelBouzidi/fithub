@@ -9,6 +9,13 @@ export default function Products() {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
+    useEffect(() => {
+        fetchProducts();
+        fetchCategories();
+    }, []);
 
     const fetchProducts = async () => {
         try {
@@ -16,6 +23,16 @@ export default function Products() {
             setProducts(res.data);
         } catch (err) {
             setError('Error: nothing to show');
+            console.error(err);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get('http://localhost:3000/category/getAll');
+            setCategories(res.data);
+        } catch (err) {
+            setError('Error: unable to fetch categories');
             console.error(err);
         }
     };
@@ -31,10 +48,6 @@ export default function Products() {
     };
 
     useEffect(() => {
-        fetchProducts();
-    }, []);
-
-    useEffect(() => {
         if (searchTerm) {
             searchProducts();
         } else {
@@ -42,25 +55,38 @@ export default function Products() {
         }
     }, [searchTerm]);
 
-    if (error) {
-        return <Typography color="error">{error}</Typography>;
-    }
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+    };
 
-    // Group products by category
-    const groupedProducts = products.reduce((acc, product) => {
-        const categoryName = product.category ? product.category.name : 'No category';
-        if (!acc[categoryName]) {
-            acc[categoryName] = [];
-        }
-        acc[categoryName].push(product);
-        return acc;
-    }, {});
+    const filteredProducts = selectedCategory
+        ? products.filter((product) => product.categoryId === selectedCategory.id)
+        : products;
 
     return (
         <Container maxWidth="lg">
             <Typography mt={8} mb={4} textAlign='center' variant="h3" component="h1" gutterBottom style={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
                 Our Products
             </Typography>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <Button
+                    variant="contained"
+                    onClick={() => setSelectedCategory(null)}
+                    style={{ marginRight: '10px', backgroundColor: 'gray', color: 'black' }}
+                >
+                    All
+                </Button>
+                {categories.map((category) => (
+                    <Button
+                        key={category.id}
+                        variant="contained"
+                        onClick={() => handleCategoryClick(category)}
+                        style={{ marginRight: '10px', backgroundColor: selectedCategory?.id === category.id ? '#a71415' : theme.palette.primary.main, color: 'gray' }}
+                    >
+                        {category.name}
+                    </Button>
+                ))}
+            </div>
             <TextField
                 fullWidth
                 label="Search products"
@@ -87,7 +113,7 @@ export default function Products() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{ marginBottom: '30px' }}
             />
-            {Object.entries(groupedProducts).map(([category, categoryProducts]) => (
+            {Object.entries(groupedProducts(filteredProducts)).map(([category, categoryProducts]) => (
                 <Paper elevation={3} key={category} style={{ padding: '20px', marginBottom: '30px', backgroundColor: theme.palette.background.default }}>
                     <Typography variant="h4" component="h2" gutterBottom style={{ color: theme.palette.secondary.main, borderBottom: `2px solid ${theme.palette.secondary.main}`, paddingBottom: '10px', marginBottom: '20px' }}>
                         {category}
@@ -143,4 +169,15 @@ export default function Products() {
             ))}
         </Container>
     );
+
+    function groupedProducts(products) {
+        return products.reduce((acc, product) => {
+            const categoryName = product.category ? product.category.name : 'No category';
+            if (!acc[categoryName]) {
+                acc[categoryName] = [];
+            }
+            acc[categoryName].push(product);
+            return acc;
+        }, {});
+    }
 }
