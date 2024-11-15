@@ -86,13 +86,13 @@ export default function OneProduct() {
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Typography variant="h4" component="h1" gutterBottom>
+                    <Typography variant="h4" component="h1" color="primary" gutterBottom>
                         {product.name}
                     </Typography>
                     <Typography variant="h5" color="primary" gutterBottom>
                         Price: {product.price} DT
                     </Typography>
-                    <Typography variant="body1" paragraph>
+                    <Typography variant="body1" color="secondary" paragraph>
                         {product.description}
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
@@ -106,10 +106,10 @@ export default function OneProduct() {
                         </Button>
                     </Box>
                     <Divider sx={{ my: 3 }} />
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" color="primary" gutterBottom>
                         Product Details
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body2" color="secondary">
                         Category: {product?.category?.name || 'N/A'}
                     </Typography>
                 </Grid>

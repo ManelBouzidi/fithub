@@ -11,7 +11,7 @@ import {
 const ContactUs = () => {
     return (
         <Container maxWidth="sm">
-            <Box sx={{ mt: 8, mb: 4 }}>
+            <Box sx={{ mt: 8, mb: 4, backgroundColor: '#000000', color: '#ffffff', padding: 4, borderRadius: 2 }}>
                 <Typography variant="h4" component="h1" gutterBottom>
                     Contact Us
                 </Typography>
@@ -23,6 +23,24 @@ const ContactUs = () => {
                                 label="First Name"
                                 variant="outlined"
                                 required
+                                sx={{
+                                    color: '#ffffff',
+                                    '& .MuiOutlinedInput-root': {
+                                        color: '#ffffff',
+                                        '& fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#ffffff'
+                                        }
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                        color: '#ffffff'
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -31,6 +49,24 @@ const ContactUs = () => {
                                 label="Last Name"
                                 variant="outlined"
                                 required
+                                sx={{
+                                    color: '#ffffff',
+                                    '& .MuiOutlinedInput-root': {
+                                        color: '#ffffff',
+                                        '& fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#ffffff'
+                                        }
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                        color: '#ffffff'
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -40,6 +76,24 @@ const ContactUs = () => {
                                 variant="outlined"
                                 type="email"
                                 required
+                                sx={{
+                                    color: '#ffffff',
+                                    '& .MuiOutlinedInput-root': {
+                                        color: '#ffffff',
+                                        '& fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#ffffff'
+                                        }
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                        color: '#ffffff'
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -50,6 +104,24 @@ const ContactUs = () => {
                                 multiline
                                 rows={4}
                                 required
+                                sx={{
+                                    color: '#ffffff',
+                                    '& .MuiOutlinedInput-root': {
+                                        color: '#ffffff',
+                                        '& fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#ffffff'
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#ffffff'
+                                        }
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                        color: '#ffffff'
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -58,6 +130,7 @@ const ContactUs = () => {
                                 variant="contained"
                                 color="primary"
                                 fullWidth
+                                sx={{ backgroundColor: '#ffffff', color: '#000000' }}
                             >
                                 Send Message
                             </Button>

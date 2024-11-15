@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../auth';
+import fithubLogo from '/BannerImage/fithublogo.png';
 
 const SignIn = ({ setIsAuthenticated }) => {
     const [email, setEmail] = useState('');
@@ -35,8 +36,10 @@ const SignIn = ({ setIsAuthenticated }) => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">
-                    Sign in
+                <img src={fithubLogo} alt="FitHub Logo" style={{ width: '400px', margin: 'auto', background: 'white', 'borderRadius': '90px' }} />
+
+                <Typography sx={{ color: 'white', marginTop: 3 }} component="h1" variant="h5">
+                    Sign in to FitHub
                 </Typography>
                 {error && (
                     <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
@@ -50,11 +53,45 @@ const SignIn = ({ setIsAuthenticated }) => {
                         fullWidth
                         id="email"
                         label="Email Address"
+                        placeholder="Email Address"
+                        InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+                        inputProps={{
+                            sx: {
+                                "&::placeholder": {
+                                    color: "white"
+                                }
+                            }
+                        }}
                         name="email"
                         autoComplete="email"
                         autoFocus
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: 'white',
+                                    '&.Mui-focused': {
+                                        color: 'white',
+                                    },
+                                },
+                            },
+                            '& .MuiInputBase-input': {
+                                color: 'white',
+                                '&::placeholder': {
+                                    color: 'white',
+                                },
+                            },
+                        }}
                     />
                     <TextField
                         margin="normal"
@@ -62,11 +99,34 @@ const SignIn = ({ setIsAuthenticated }) => {
                         fullWidth
                         name="password"
                         label="Password"
+                        placeholder="Password"
+                        InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+                        inputProps={{
+                            sx: {
+                                "&::placeholder": {
+                                    color: "white"
+                                }
+                            }
+                        }}
                         type="password"
                         id="password"
                         autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder='Password'
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'white',
+                                },
+                            },
+                            '& .MuiInputBase-input': {
+                                color: 'white',
+                                '&::placeholder': {
+                                    color: 'white',
+                                },
+                            },
+                        }}
                     />
                     <Button
                         type="submit"

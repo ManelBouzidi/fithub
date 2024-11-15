@@ -225,8 +225,8 @@ function ProductsList() {
                                 <TableCell align="right">{product.price}</TableCell>
                                 <TableCell>{product.category ? product.category.name : 'N/A'}</TableCell>
                                 <TableCell align="center">
-                                    <Button onClick={() => handleEditClick(product)}>Edit</Button>
-                                    <Button onClick={() => handleDeleteClick(product)} color="error">Delete</Button>
+                                    <Button variant='outlined' sx={{ m: 0.5 }} color='info' onClick={() => handleEditClick(product)}>Edit</Button>
+                                    <Button variant='outlined' sx={{ m: 0.5 }} onClick={() => handleDeleteClick(product)} color="error">Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -255,8 +255,8 @@ function ProductsList() {
             </Dialog>
 
             <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
-                <DialogTitle>Edit Product</DialogTitle>
-                <DialogContent>
+                <DialogTitle sx={{ background: 'lightgray' }}>Edit Product</DialogTitle>
+                <DialogContent sx={{ background: 'lightgray' }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Avatar
@@ -332,15 +332,15 @@ function ProductsList() {
                         </Grid>
                     </Grid>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpenEdit(false)}>Cancel</Button>
-                    <Button onClick={handleEdit}>Save</Button>
+                <DialogActions sx={{ background: 'lightgray' }}>
+                    <Button color='secondary' onClick={() => setOpenEdit(false)}>Cancel</Button>
+                    <Button color='info' onClick={handleEdit}>Save</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openCreate} onClose={() => setOpenCreate(false)}>
-                <DialogTitle>Create New Product</DialogTitle>
-                <DialogContent>
+                <DialogTitle sx={{ background: 'lightgray' }}>Create New Product</DialogTitle>
+                <DialogContent sx={{ background: 'lightgray' }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Avatar
@@ -416,9 +416,9 @@ function ProductsList() {
                         </Grid>
                     </Grid>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpenCreate(false)}>Cancel</Button>
-                    <Button onClick={handleCreate}>Create</Button>
+                <DialogActions sx={{ background: 'lightgray' }}>
+                    <Button color='secondary' onClick={() => setOpenCreate(false)}>Cancel</Button>
+                    <Button color='info' onClick={handleCreate}>Create</Button>
                 </DialogActions>
             </Dialog>
         </Box>

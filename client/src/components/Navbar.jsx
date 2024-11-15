@@ -68,25 +68,41 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
       <NavbarHeader onClick={() => navigate("/")}>
         <img src={fithubLogo} alt="FitHub Logo" style={{ width: '100px', marginLeft: '50px' }} />
       </NavbarHeader>
-      <MyList type="row">
-        <ListItemText primary="Home" onClick={() => navigate("/")} />
-        <ListItemText primary="Products" onClick={() => navigate("/products")} />
-        <ListItemText primary="Contact Us" onClick={() => navigate("/contact")} />
-        {isAdmin() && <ListItemText primaryTypographyProps={{ sx: { color: 'blue', fontWeight: 'bold' } }} primary="Admin" onClick={() => navigate("/admin")} />}
+      <MyList type="row" style={{ alignItems: 'center', height: '100%', textAlign: 'center' }}>
+        <ListItemText sx={{
+          '&:hover': {
+            backgroundColor: '#a71414',
+            color: 'white',
+            borderRadius: '20px'
+
+          }
+        }} primary="Home" onClick={() => navigate("/")} style={{ padding: '16px 0', '&:hover': { backgroundColor: '#a71414', color: 'white' } }} />
+        <ListItemText sx={{
+          '&:hover': {
+            backgroundColor: '#a71414',
+            color: 'white',
+            borderRadius: '20px'
+
+          }
+        }} primary="Products" onClick={() => navigate("/products")} style={{ padding: '16px 0', '&:hover': { backgroundColor: '#a71414', color: 'white' } }} />
+        <ListItemText sx={{
+          '&:hover': {
+            backgroundColor: '#a71414',
+            color: 'white',
+            borderRadius: '20px'
+          }
+        }} primary="Contact Us" onClick={() => navigate("/contact")} style={{ marginRight: '4px', padding: '16px 0', '&:hover': { backgroundColor: '#a71414', color: 'white' } }} />
+        {isAdmin() && <ListItemText primaryTypographyProps={{ sx: { color: '#a71414', background: "white", borderRadius: '16px', fontWeight: 'bold' } }} primary="Admin" onClick={() => navigate("/admin")} style={{ padding: '16px 0', '&:hover': { backgroundColor: '#a71414', color: 'white' } }} />}
       </MyList>
-      <Badge badgeContent={cartItemsCount} color="secondary" style={{ marginLeft: '30px', marginRight: '30px', cursor: 'pointer' }} onClick={() => navigate("/cart")}>
-        <ShoppingCart />
+      <Badge slotProps={{ badge: { style: { backgroundColor: '#a71414' } } }} sx={{ backgroundColor: '#a71414' }} badgeContent={cartItemsCount} style={{ color: 'white', backgroundColor: '#a71414', marginLeft: '30px', marginRight: '30px', cursor: 'pointer' }} onClick={() => navigate("/cart")}>
+        <ShoppingCart sx={{ backgroundColor: 'black' }} />
       </Badge>
       {isAuthenticated ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Button color="inherit" onClick={handleMenu} startIcon={
-            <Avatar
-              src={userImage}
-              alt={userName}
-              sx={{ width: 32, height: 32 }}
-            >
-              {!userImage && <AccountCircle />}
-            </Avatar>
+          <Button sx={{ color: 'white' }} onClick={handleMenu} startIcon={<Avatar src={userImage} sx={{ width: 32, height: 32 }}
+          >
+            {!userImage && <AccountCircle />}
+          </Avatar>
           }>
             {userName}
           </Button>
@@ -102,10 +118,22 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
         </div>
       ) : (
         <>
-          <Button color="inherit" onClick={() => navigate("/signin")} style={{ marginRight: '10px' }}>
+          <Button sx={{
+            '&:hover': {
+              backgroundColor: '#a71414',
+              color: 'white',
+              borderRadius: '20px'
+            }
+          }} onClick={() => navigate("/signin")} style={{ marginRight: '10px' }}>
             Sign In
           </Button>
-          <Button color="inherit" onClick={() => navigate("/signup")}>
+          <Button sx={{
+            '&:hover': {
+              backgroundColor: '#a71414',
+              color: 'white',
+              borderRadius: '20px'
+            }
+          }} onClick={() => navigate("/signup")}>
             Sign Up
           </Button>
         </>

@@ -84,7 +84,7 @@ export default function Cart() {
                 Your Cart
             </Typography>
             {cartItems.length === 0 ? (
-                <Typography>Your cart is empty.</Typography>
+                <Typography color='primary'>Your cart is empty.</Typography>
             ) : (
                 <>
                     <Grid container spacing={2}>

@@ -66,6 +66,24 @@ export default function Products() {
                 label="Search products"
                 variant="outlined"
                 value={searchTerm}
+                sx={{
+                    color: '#ffffff',
+                    '& .MuiOutlinedInput-root': {
+                        color: '#ffffff',
+                        '& fieldset': {
+                            borderColor: '#ffffff'
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#ffffff'
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#ffffff'
+                        }
+                    },
+                    '& .MuiInputLabel-root': {
+                        color: '#ffffff'
+                    }
+                }}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{ marginBottom: '30px' }}
             />
@@ -110,6 +128,7 @@ export default function Products() {
                                             variant="contained"
                                             size="small"
                                             component={Link}
+                                            sx={{ background: '#a71415', color: 'white' }}
                                             to={`/product/${encodeURIComponent(product.id)}`}
                                             style={{ width: '100%' }}
                                         >

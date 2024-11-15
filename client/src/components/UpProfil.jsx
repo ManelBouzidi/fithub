@@ -147,6 +147,40 @@ const EditProfile = () => {
               margin="normal"
               name="name"
               label="First Name"
+              placeholder="First Name"
+              InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+              inputProps={{
+                sx: {
+                  "&::placeholder": {
+                    color: "white"
+                  }
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: 'white',
+                    '&.Mui-focused': {
+                      color: 'white',
+                    },
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                  '&::placeholder': {
+                    color: 'white',
+                  },
+                },
+              }}
               value={user.name || ''}
               onChange={handleChange}
             />
@@ -157,6 +191,40 @@ const EditProfile = () => {
               margin="normal"
               name="lastName"
               label="Last Name"
+              placeholder="Last Name"
+              InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+              inputProps={{
+                sx: {
+                  "&::placeholder": {
+                    color: "white"
+                  }
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: 'white',
+                    '&.Mui-focused': {
+                      color: 'white',
+                    },
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                  '&::placeholder': {
+                    color: 'white',
+                  },
+                },
+              }}
               value={user.lastName || ''}
               onChange={handleChange}
             />
@@ -167,6 +235,40 @@ const EditProfile = () => {
               margin="normal"
               name="email"
               label="Email"
+              placeholder="Email"
+              InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+              inputProps={{
+                sx: {
+                  "&::placeholder": {
+                    color: "white"
+                  }
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: 'white',
+                    '&.Mui-focused': {
+                      color: 'white',
+                    },
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                  '&::placeholder': {
+                    color: 'white',
+                  },
+                },
+              }}
               type="email"
               value={user.email || ''}
               onChange={handleChange}
@@ -178,6 +280,40 @@ const EditProfile = () => {
               margin="normal"
               name="password"
               label="New Password"
+              placeholder="New Password"
+              InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+              inputProps={{
+                sx: {
+                  "&::placeholder": {
+                    color: "white"
+                  }
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: 'white',
+                    '&.Mui-focused': {
+                      color: 'white',
+                    },
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                  '&::placeholder': {
+                    color: 'white',
+                  },
+                },
+              }}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -189,6 +325,40 @@ const EditProfile = () => {
               margin="normal"
               name="confirmPassword"
               label="Confirm New Password"
+              placeholder="Confirm New Password"
+              InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+              inputProps={{
+                sx: {
+                  "&::placeholder": {
+                    color: "white"
+                  }
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: 'white',
+                    '&.Mui-focused': {
+                      color: 'white',
+                    },
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                  '&::placeholder': {
+                    color: 'white',
+                  },
+                },
+              }}
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -199,15 +369,48 @@ const EditProfile = () => {
               fullWidth
               margin="normal"
               type="file"
-              InputLabelProps={{ shrink: true }}
               label="Profile Image"
-              inputProps={{ accept: "image/*" }}
+              placeholder="Profile Image"
+              InputLabelProps={{ shrink: true, sx: { color: 'white' } }}
+              inputProps={{
+                accept: "image/*",
+                sx: {
+                  "&::placeholder": {
+                    color: "white"
+                  }
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: 'white',
+                    '&.Mui-focused': {
+                      color: 'white',
+                    },
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                  '&::placeholder': {
+                    color: 'white',
+                  },
+                },
+              }}
               onChange={handleFileChange}
             />
           </Grid>
         </Grid>
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-          <Button variant="contained" color="secondary" onClick={() => navigate('/Profil')}>
+          <Button variant="contained" color="secondary" onClick={() => navigate('/profile')}>
             Cancel
           </Button>
           <Button sx={{ ml: 1 }} variant="contained" color="primary" onClick={handleSave}>

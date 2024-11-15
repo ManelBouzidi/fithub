@@ -110,8 +110,8 @@ function CategoryList() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenCreate(false)}>Cancel</Button>
-                    <Button onClick={handleCreate}>Create</Button>
+                    <Button color='secondary' onClick={() => setOpenCreate(false)}>Cancel</Button>
+                    <Button color='info' onClick={handleCreate}>Create</Button>
                 </DialogActions>
             </Dialog>
         </Box>

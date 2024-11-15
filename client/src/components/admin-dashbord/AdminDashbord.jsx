@@ -18,7 +18,7 @@ function AdminDashboard({ setIsAuthenticated }) {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', background: 'white' }}>
       <SidebarAdmin />
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
         <HeaderAdmin setIsAuthenticated={setIsAuthenticated} />

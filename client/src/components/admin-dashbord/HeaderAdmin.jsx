@@ -49,8 +49,8 @@ function HeaderAdmin({ setIsAuthenticated }) {
       sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
-        bgcolor: 'primary.main',
-        color: 'primary.contrastText',
+        bgcolor: 'black',
+        color: 'white',
       }}
     >
       <Toolbar>

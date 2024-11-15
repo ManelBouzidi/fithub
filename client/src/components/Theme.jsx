@@ -1,23 +1,23 @@
 import { createTheme } from "@mui/material";
 
 export const Colors = {
-    primary: "#000",
+    primary: "#ffffff",
     secondary: "#aaaaaa",
     succes: "#28a745",
     info: "#17a2b8",
     danger: "#dc3545",
     warning: "#ffc107",
-    dark: "#343a40",
-    light: "#f8f9fa",
+    dark: "#f8f9fa",
+    light: "#343a40",
     muted: "#6c757d",
     border: "#dee2e6",
     inverse: "#292b2c",
     shaft: "#333333",
-    dove_gray: "#d5d5d5",
-    body_bg: "#f4f4f4",
+    dove_gray: "#fff",
+    body_bg: "#000000",
 
-    white: "#fff",
-    black: "#000",
+    white: "#000000",
+    black: "#ffffff",
 };
 
 const Theme = createTheme({
@@ -27,6 +27,9 @@ const Theme = createTheme({
         },
         secondary: {
             main: Colors.secondary
+        },
+        background: {
+            default: Colors.body_bg
         }
     },
 });
